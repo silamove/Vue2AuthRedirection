@@ -12,7 +12,17 @@ const routes = [
     { path: '/fetchdata', component: require('./components/fetchdata/fetchdata.vue.html') },
     { path: '/login', component: require('./components/login/login.vue.html') },
     { 
+        path: '/orders', 
+        component: require('./components/orders/orders.vue.html'),
+        meta: { requiresAuth: true }
+    },
+    { 
         path: '/order/edit/:id', 
+        component: require('./components/orderedit/orderedit.vue.html'),
+        meta: { requiresAuth: true }
+    },
+    { 
+        path: '/order/new', 
         component: require('./components/orderedit/orderedit.vue.html'),
         meta: { requiresAuth: true }
     }

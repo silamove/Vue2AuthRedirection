@@ -1,0 +1,25 @@
+<template>
+    <div>
+        <h1>My Orders</h1>
+        <p v-if="!orders || orders.length === 0">You have no orders.</p>
+        <table class="table" v-if="orders && orders.length > 0">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="order in orders" :key="order.id">
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.product }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>{{ order.status }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div v-if="error" class="alert alert-danger">{{ error }}</div>
+    </div>
+</template>
