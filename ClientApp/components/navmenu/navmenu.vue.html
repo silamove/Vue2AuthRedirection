@@ -29,10 +29,12 @@
                         </router-link>
                     </li>
                     <li v-if="isAuthenticated">
-                        <router-link to="/order/edit/123">
-                            <span class="glyphicon glyphicon-edit"></span> Order Edit
+                        <router-link to="/orders">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Orders
                         </router-link>
                     </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     <li v-if="!isAuthenticated">
                         <router-link to="/login">
                             <span class="glyphicon glyphicon-log-in"></span> Login

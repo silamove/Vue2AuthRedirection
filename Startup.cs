@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using MyWebApp.Data;
+using MyWebApp.Services;
 
 namespace MyWebApp
 {
@@ -22,6 +26,15 @@ namespace MyWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add Entity Framework
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            
+            // Add services
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IDataSeedingService, DataSeedingService>();
+            
             services.AddAuthentication("MyCookieAuth")
                 .AddCookie("MyCookieAuth", options =>
                 {
@@ -57,7 +70,7 @@ namespace MyWebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDataSeedingService dataSeedingService)
         {
             if (env.IsDevelopment())
             {
@@ -86,6 +99,9 @@ namespace MyWebApp
 
                 endpoints.MapFallbackToController("Index", "Home");
             });
+            
+            // Seed data
+            dataSeedingService.SeedDataAsync().Wait();
         }
     }
 }
